@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../lib/auth";
 import { regenerateHealthToken } from "../lib/db";
+import LegalModal from "./LegalDoc";
+import { LEGAL_VERSION, LEGAL_EFFECTIVE } from "../lib/legal";
 
 export const HEALTH_TOKEN_HEADER = "X-RackUp-Token";
 
@@ -9,6 +11,7 @@ export default function Settings({ userId, onBack, onOpenImport }) {
   const [token, setToken] = useState(null);
   const [busy, setBusy] = useState(false);
   const [confirmRegen, setConfirmRegen] = useState(false);
+  const [showDoc, setShowDoc] = useState(null);
 
   const webhookUrl = `${window.location.origin}/api/health-import`;
 
@@ -80,6 +83,19 @@ export default function Settings({ userId, onBack, onOpenImport }) {
           <button className="il-ghost" onClick={onOpenImport}>Import old data</button>
         </div>
       </section>
+
+      <section className="il-card">
+        <h3>Legal</h3>
+        <p className="il-muted">
+          You accepted version {LEGAL_VERSION} (effective {LEGAL_EFFECTIVE}).
+        </p>
+        <div className="il-btnrow">
+          <button className="il-ghost" onClick={() => setShowDoc("privacy")}>Privacy Policy</button>
+          <button className="il-ghost" onClick={() => setShowDoc("terms")}>Terms of Service</button>
+        </div>
+      </section>
+
+      <LegalModal which={showDoc} onClose={() => setShowDoc(null)} />
     </main>
   );
 }

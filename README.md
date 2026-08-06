@@ -1,7 +1,12 @@
 # RackUp
 
-Cross-platform workout logger PWA — routines, live sessions with rest timers and PR
-detection, progress charts, and Apple Watch heart-rate sync via Health Auto Export.
+Workout tracker and logger: custom routines, notes per exercise, set rows with
+weight/reps/done checkboxes, session timing, PR detection ("PR" when weight exceeds your
+historical max for that exercise, "REP RECORD" for reps), and a post-session summary of
+total volume and muscle groups worked, ranked by usage.
+
+Cross-platform PWA — routines, live sessions with rest timers and PR detection, progress
+charts, and Apple Watch heart-rate sync via Health Auto Export.
 
 Built per [RACKUP-BUILD-SPEC.md](RACKUP-BUILD-SPEC.md); UI ported from the
 `workout-logger.jsx` prototype.

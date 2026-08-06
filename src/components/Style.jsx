@@ -210,6 +210,31 @@ export default function Style() {
         padding:10px; background:var(--card); color:var(--ink); font-family:'IBM Plex Mono',ui-monospace,monospace;
         font-size:12.5px; resize:vertical; }
 
+      .il-healthnote { background:#FFF8F5; border:1.5px solid #F3B6A8; border-radius:10px;
+        padding:11px 13px; font-size:12.5px; line-height:1.5; color:var(--ink); margin:0 0 16px; }
+      .il-healthnote strong { font-weight:700; }
+      .il-consent { display:flex; gap:9px; align-items:flex-start; margin:14px 0 4px;
+        font-size:12.5px; line-height:1.5; color:var(--muted); cursor:pointer; }
+      .il-consent input { margin-top:2px; width:17px; height:17px; flex:none; accent-color:var(--clip); cursor:pointer; }
+      .il-consent .il-linkbtn { margin-left:0; font-size:12.5px; }
+      .il-consenthint { text-align:center; font-size:12px; margin-top:8px; }
+      .il-legal-links { text-align:center; margin:18px 0 0; font-size:12px; }
+      .il-legal-links .il-linkbtn { margin:0 2px; font-size:12px; color:var(--muted); }
+
+      .il-legal-modal { background:var(--card); border:1.5px solid var(--line); border-radius:14px;
+        max-width:660px; width:100%; max-height:86vh; display:flex; flex-direction:column; }
+      .il-legal-scroll { overflow-y:auto; padding:22px 22px 6px; -webkit-overflow-scrolling:touch; }
+      .il-legal-foot { padding:12px 22px 16px; margin-top:0; border-top:1.5px solid var(--line); }
+      .il-legal-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:23px;
+        letter-spacing:.08em; text-transform:uppercase; margin:0 0 2px; }
+      .il-legal-meta { color:var(--muted); font-size:12px; margin:0 0 16px; }
+      .il-legal-sec { margin-bottom:16px; }
+      .il-legal-sec.important { background:#FFF8F5; border:1.5px solid #F3B6A8; border-radius:10px; padding:12px 14px; }
+      .il-legal-h { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:16px;
+        letter-spacing:.05em; text-transform:uppercase; margin:0 0 5px; }
+      .il-legal-p { font-size:13px; line-height:1.6; margin:0 0 8px; color:var(--ink); }
+      .il-legal-p:last-child { margin-bottom:0; }
+
       @media (max-width:430px) {
         .il-setgrid { grid-template-columns:24px 1fr 1fr 42px minmax(58px,auto); gap:6px; }
         .il-clock { font-size:22px; }

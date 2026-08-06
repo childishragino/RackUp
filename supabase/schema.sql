@@ -11,6 +11,9 @@ create table if not exists profiles (
   -- sha-256 hex digest of the per-user Health Auto Export token (RACKUP-BUILD-SPEC.md §4).
   -- Never store the raw token — only its hash, so a leaked DB row can't be replayed as a header.
   health_token_hash text unique,
+  -- Which revision of the Terms/Privacy Policy this user accepted, and when.
+  terms_accepted_at timestamptz,
+  terms_version text,
   created_at timestamptz default now()
 );
 

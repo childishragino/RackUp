@@ -118,6 +118,26 @@ function randomToken() {
   return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+/**
+ * Stamps the accepted legal version onto the user's profile. Called once after
+ * sign-in; rewrites only when the stored version differs from the current one,
+ * so the timestamp reflects when *this* revision was accepted.
+ */
+export async function recordConsent(userId, version) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("terms_version")
+    .eq("id", userId)
+    .maybeSingle();
+  if (error) throw error;
+  if (data && data.terms_version === version) return;
+  const { error: updErr } = await supabase
+    .from("profiles")
+    .update({ terms_accepted_at: new Date().toISOString(), terms_version: version })
+    .eq("id", userId);
+  if (updErr) throw updErr;
+}
+
 export async function getProfile(userId) {
   const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
   if (error) throw error;
