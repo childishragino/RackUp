@@ -113,6 +113,7 @@ export default function RackUp({ userId, userEmail, onSignOut }) {
   const [saveState, setSaveState] = useState("idle");
   const [confirm, setConfirm] = useState(null);
   const [loadError, setLoadError] = useState(null);
+  const [saveError, setSaveError] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -129,10 +130,14 @@ export default function RackUp({ userId, userEmail, onSignOut }) {
       setSaveState("saving");
       const result = await fn();
       setSaveState("saved");
+      setSaveError(null);
       setTimeout(() => setSaveState("idle"), 1200);
       return result;
     } catch (e) {
+      // A failed write used to surface only as a tiny "not saved" label, which
+      // is easy to miss right when losing a finished workout matters most.
       setSaveState("error");
+      setSaveError(e.message || String(e) || "Save failed.");
       throw e;
     }
   };
@@ -179,6 +184,15 @@ export default function RackUp({ userId, userEmail, onSignOut }) {
           <button className="il-navlink" onClick={() => setView({ name: "settings" })}>Settings</button>
         </div>
       </header>
+
+      {saveError && (
+        <div className="il-savebanner" role="alert">
+          <div className="il-savebanner-in">
+            <strong>Not saved.</strong> {saveError}
+            <button className="il-savebanner-x" aria-label="Dismiss" onClick={() => setSaveError(null)}>✕</button>
+          </div>
+        </div>
+      )}
 
       {view.name === "home" && (
         <Home

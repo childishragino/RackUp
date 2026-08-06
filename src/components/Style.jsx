@@ -210,6 +210,13 @@ export default function Style() {
         padding:10px; background:var(--card); color:var(--ink); font-family:'IBM Plex Mono',ui-monospace,monospace;
         font-size:12.5px; resize:vertical; }
 
+      .il-savebanner { background:#FDE8E4; border-bottom:1.5px solid #F3B6A8; }
+      .il-savebanner-in { max-width:640px; margin:0 auto; padding:11px 16px; font-size:13px;
+        line-height:1.5; color:var(--clip-dark); display:flex; gap:10px; align-items:flex-start; }
+      .il-savebanner-in strong { font-weight:700; flex:none; }
+      .il-savebanner-x { margin-left:auto; background:none; border:none; color:var(--clip-dark);
+        cursor:pointer; font-size:14px; padding:0 2px; flex:none; }
+
       .il-healthnote { background:#FFF8F5; border:1.5px solid #F3B6A8; border-radius:10px;
         padding:11px 13px; font-size:12.5px; line-height:1.5; color:var(--ink); margin:0 0 16px; }
       .il-healthnote strong { font-weight:700; }

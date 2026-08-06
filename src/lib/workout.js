@@ -18,7 +18,24 @@ export const SUPERSETS = {
   D: { color: "#C2478D", bg: "#F9E9F2" },
 };
 
-export const uid = () => Math.random().toString(36).slice(2, 10);
+/**
+ * Ids are generated client-side so the UI can render a new routine/session
+ * before the round-trip completes. They land in Postgres `uuid` columns, so
+ * this must produce a real UUID — a short random string is rejected outright
+ * with "invalid input syntax for type uuid".
+ */
+export const uid = () => {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  // Fallback for browsers without randomUUID (Safari < 15.4).
+  const b = new Uint8Array(16);
+  crypto.getRandomValues(b);
+  b[6] = (b[6] & 0x0f) | 0x40; // version 4
+  b[8] = (b[8] & 0x3f) | 0x80; // variant 10x
+  const h = Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+};
 export const toLbs = (w, unit) => (unit === "kg" ? w * LB_PER_KG : w);
 export const roundW = (n) => { const r = Math.round(n * 10) / 10; return r % 1 === 0 ? String(Math.round(r)) : r.toFixed(1); };
 export const convertW = (val, from, to) => {
