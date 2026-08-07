@@ -210,6 +210,10 @@ export default function Style() {
         padding:10px; background:var(--card); color:var(--ink); font-family:'IBM Plex Mono',ui-monospace,monospace;
         font-size:12.5px; resize:vertical; }
 
+      .il-altcode { margin:16px 0 6px; padding-top:14px; border-top:1.5px solid var(--line); font-size:12.5px; }
+      .il-sronly { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+        clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
       .il-savebanner { background:#FDE8E4; border-bottom:1.5px solid #F3B6A8; }
       .il-savebanner-in { max-width:640px; margin:0 auto; padding:11px 16px; font-size:13px;
         line-height:1.5; color:var(--clip-dark); display:flex; gap:10px; align-items:flex-start; }

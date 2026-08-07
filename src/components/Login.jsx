@@ -37,7 +37,7 @@ export default function Login() {
 
         {stage === "email" ? (
           <>
-            <p className="il-authsub">Sign in with your email — we'll send a 6-digit code, no password needed.</p>
+            <p className="il-authsub">Sign in with your email — we'll send you a link to tap. No password needed.</p>
 
             <div className="il-healthnote" role="note">
               <strong>Before you start:</strong> RackUp is a logging tool, not a medical device, and
@@ -73,11 +73,17 @@ export default function Login() {
           </>
         ) : (
           <>
-            <p className="il-authsub">Enter the 6-digit code sent to <strong>{email}</strong>.</p>
+            <p className="il-authsub">
+              We've emailed <strong>{email}</strong>. Open it and <strong>tap the sign-in link</strong> — that's all
+              you need to do.
+            </p>
+            <p className="il-muted il-altcode">
+              If your email shows a <strong>6-digit code</strong> instead of a link, type it here:
+            </p>
             <form onSubmit={submitCode}>
-              <label className="il-label" htmlFor="code">Code</label>
+              <label className="il-label il-sronly" htmlFor="code">Code</label>
               <input id="code" className="il-input il-codeinput" inputMode="numeric" pattern="[0-9]*"
-                maxLength={6} autoFocus placeholder="000000" value={code}
+                maxLength={6} placeholder="000000" value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} />
               <div className="il-btnrow">
                 <button className="il-ghost" type="button" onClick={() => { setStage("email"); setCode(""); }}>Back</button>
