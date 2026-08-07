@@ -454,6 +454,41 @@ function RoutineDetail({ routine, sessions, onBack, onStart, onEdit, onDelete })
 
 /* ------------------------- ROUTINE EDITOR -------------------------- */
 
+/**
+ * Number input that clamps on blur rather than on every keystroke.
+ *
+ * Clamping per-keystroke makes the field unusable: with 3 in the box, typing a
+ * digit at the end briefly makes 35, which snaps to the maximum and then traps
+ * the field there. Holding the raw text while focused lets the box be cleared
+ * and retyped normally; the value is committed as soon as it is valid, and
+ * clamped once on blur.
+ */
+function NumField({ value, min, max, step = 1, onCommit, className, ...rest }) {
+  const [draft, setDraft] = useState(null); // null = not editing, show the model value
+
+  return (
+    <input
+      type="number" min={min} max={max} step={step} className={className}
+      value={draft !== null ? draft : String(value)}
+      onChange={(e) => {
+        const raw = e.target.value;
+        setDraft(raw);
+        const n = Number(raw);
+        if (raw !== "" && Number.isFinite(n) && n >= min && n <= max) onCommit(n);
+      }}
+      onBlur={() => {
+        const raw = draft;
+        setDraft(null);
+        if (raw === null) return;
+        const n = Number(raw);
+        if (raw === "" || !Number.isFinite(n)) return; // left empty — keep the last good value
+        onCommit(Math.max(min, Math.min(max, Math.round(n / step) * step)));
+      }}
+      {...rest}
+    />
+  );
+}
+
 function RoutineEditor({ routine, onSave, onCancel }) {
   const [r, setR] = useState(routine);
   const [chipOpen, setChipOpen] = useState({});
@@ -500,13 +535,13 @@ function RoutineEditor({ routine, onSave, onCancel }) {
             <div className="il-exopts">
               <label className="il-label il-inlinelab">
                 Sets
-                <input className="il-input il-input-sets" type="number" min="1" max="10" value={ex.defaultSets}
-                  onChange={(e) => setEx(i, { defaultSets: Math.max(1, Math.min(10, Number(e.target.value) || 1)) })} />
+                <NumField className="il-input il-input-sets" min={1} max={10} value={ex.defaultSets}
+                  onCommit={(n) => setEx(i, { defaultSets: n })} />
               </label>
               <label className="il-label il-inlinelab">
                 Rest (s)
-                <input className="il-input il-input-sets" type="number" min="0" max="600" step="10" value={ex.restSec ?? 90}
-                  onChange={(e) => setEx(i, { restSec: Math.max(0, Math.min(600, Math.round((Number(e.target.value) || 0) / 10) * 10)) })} />
+                <NumField className="il-input il-input-sets" min={0} max={600} step={10} value={ex.restSec ?? 90}
+                  onCommit={(n) => setEx(i, { restSec: n })} />
               </label>
               <label className="il-label il-inlinelab">
                 Superset
